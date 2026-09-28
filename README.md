@@ -39,11 +39,11 @@ before continuing. Confirm that an ordinary OpenCode session works.
 
 The commands below use the shared `~/.agents/skills` directory. If your agent
 does not discover skills there, substitute its configured skill directory.
-Replace the placeholder URL with this repository's clone URL once it is hosted.
+If installing from a fork, substitute that fork's clone URL.
 For a private repository, authenticate Git with an account that has access first.
 
 ```bash
-REPO_URL="https://github.com/OWNER/routine-skill.git"
+REPO_URL="https://github.com/swaroopch/routine-skill.git"
 mkdir -p "$HOME/.agents/skills"
 git clone "$REPO_URL" "$HOME/.agents/skills/routine"
 ```
