@@ -21,20 +21,75 @@ OpenCode authentication separately; never put API keys in routine definitions.
 
 ## Install as a skill
 
-Copy or symlink this repository into the `routine` directory of your agent's
-configured skill location. Keep `SKILL.md`, `scripts/`, and their relative
-layout intact. Then invoke `/routine` if your agent supports slash commands,
-or ask it to use the routine skill.
+### 1. Check prerequisites
 
-The launcher also works without a skill loader. From this repository:
+On the Mac that will run the schedules, check that the required tools are
+available:
 
 ```bash
-uv run --no-project python scripts/routines.py --help
-uv run --no-project python scripts/routines.py list
+git --version
+uv --version
+opencode --version
 ```
 
-Keep the installation path stable: generated launchd plists reference it.
-After moving the skill or its tools, reinstall your schedules.
+Install any missing tools and configure OpenCode with your chosen provider
+before continuing. Confirm that an ordinary OpenCode session works.
+
+### 2. Clone into your skill directory
+
+The commands below use the shared `~/.agents/skills` directory. If your agent
+does not discover skills there, substitute its configured skill directory.
+Replace the placeholder URL with this repository's clone URL once it is hosted.
+For a private repository, authenticate Git with an account that has access first.
+
+```bash
+REPO_URL="https://github.com/OWNER/routine-skill.git"
+mkdir -p "$HOME/.agents/skills"
+git clone "$REPO_URL" "$HOME/.agents/skills/routine"
+```
+
+If the destination already exists, inspect it rather than overwriting it.
+Keep the complete repository layout, including `SKILL.md` and `scripts/`;
+copying only `SKILL.md` will not install the launcher.
+
+### 3. Verify the installation
+
+```bash
+uv run --no-project python "$HOME/.agents/skills/routine/scripts/routines.py" --help
+uv run --no-project python "$HOME/.agents/skills/routine/scripts/routines.py" list
+```
+
+These commands do not schedule jobs or call a model provider. A fresh installation
+shows an empty routine list.
+
+Restart your agent or reload its skills, then invoke `/routine` if it supports
+slash commands. Otherwise, ask it to use the `routine` skill. If the skill is not
+discovered, check the agent's configured skill directory. The launcher also
+works directly from the command line without a skill loader.
+
+### 4. Create your first routine
+
+Follow the example below, or ask your agent:
+
+> Use the routine skill to prepare a weekday project summary at 09:00. Ask me
+> for the project directory and model, and show the definition before scheduling it.
+
+Installing the skill alone does not install any schedules. For the relative
+commands in the rest of this README, first enter the checkout:
+
+```bash
+cd "$HOME/.agents/skills/routine"
+```
+
+Keep this installation path stable: generated launchd plists reference it.
+After moving the skill or its tools, reinstall your schedules with
+`uv run --no-project python scripts/routines.py install`.
+
+To update a Git-based installation:
+
+```bash
+git -C "$HOME/.agents/skills/routine" pull --ff-only
+```
 
 ## Define and install a routine
 
