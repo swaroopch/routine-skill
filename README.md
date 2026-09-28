@@ -1,5 +1,7 @@
 ## Routine skill
 
+<img width="2482" height="1594" alt="CleanShot 2026-09-28 at 09 22 05@2x" src="https://github.com/user-attachments/assets/1373619e-11ec-4da2-bb72-444ce5222971" />
+
 Schedule recurring OpenCode prompts on macOS. Each routine is a Markdown file:
 frontmatter holds its schedule and options, and the body holds its prompt.
 The launcher compiles schedules into launchd agents and reads prompts at run time.
